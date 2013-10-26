@@ -48,7 +48,7 @@ import StringReporter.fragmentsForEvent
  * </p>
  *
  * <pre class="stHighlight">
- * org.scalatest" % "scalatest_2.10" % "2.0" % "test"
+ * "org.scalatest" % "scalatest_2.10" % "2.0" % "test"
  * </pre>
  *
  * <p>
@@ -386,6 +386,13 @@ class Framework extends SbtFramework {
               suiteTags = mergeMap[String, Set[String]](List(suiteTags, Map(suite.suiteId -> Set(SELECTED_TAG)))) { _ ++ _ }
             case testSelector: TestSelector =>
               testTags = mergeMap[String, Map[String, Set[String]]](List(testTags, Map(suite.suiteId -> Map(testSelector.testName -> Set(SELECTED_TAG))))) { (testMap1, testMap2) => 
+                mergeMap[String, Set[String]](List(testMap1, testMap2)) { _ ++ _}
+              }
+              hasTest = true
+            case testWildcardSelector: TestWildcardSelector =>
+              val filteredTestNames = suite.testNames.filter(_.contains(testWildcardSelector.testWildcard))
+              val selectorTestTags = Map.empty ++ filteredTestNames.map(_ -> Set(SELECTED_TAG))
+              testTags = mergeMap[String, Map[String, Set[String]]](List(testTags, Map(suite.suiteId -> selectorTestTags))) { (testMap1, testMap2) =>
                 mergeMap[String, Set[String]](List(testMap1, testMap2)) { _ ++ _}
               }
               hasTest = true

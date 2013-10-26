@@ -59,8 +59,10 @@ import org.scalatest.Resources
  * <pre class="stHighlight">
  * import org.scalatest._
  * import selenium._
+ * import org.openqa.selenium._
+ * import htmlunit._
  *
- * class BlogSpec extends FlatSpec with ShouldMatchers with WebBrowser {
+ * class BlogSpec extends FlatSpec with Matchers with WebBrowser {
  *
  *   implicit val webDriver: WebDriver = new HtmlUnitDriver
  * 
@@ -84,7 +86,7 @@ import org.scalatest.Resources
  * import org.scalatest._
  * import selenium._
  *
- * class BlogSpec extends FlatSpec with ShouldMatchers with HtmlUnit {
+ * class BlogSpec extends FlatSpec with Matchers with HtmlUnit {
  *
  *   val host = "http://localhost:9000/"
  *
@@ -616,7 +618,7 @@ import org.scalatest.Resources
  * </p>
  *
  * <pre class="stHighlight">
- * singleSel.clear()
+ * singleSel("select1").clear()
  * singleSel("select1").selection = None
  * </pre>
  * 
